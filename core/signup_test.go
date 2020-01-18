@@ -45,6 +45,16 @@ var testCases = []testCase{
 		PasswordHash: hash1,
 	},
 
+	// Short password
+	testCase{
+		ExpectedError: ErrShortPassword,
+		Input: &SignupInput{
+			Context:  context1,
+			Email:    email1,
+			Password: "123",
+		},
+	},
+
 	// Duplicate user email
 	testCase{
 		CreateUserError: database.ErrDuplicateUserEmail,
@@ -65,20 +75,24 @@ func TestSignup(t *testing.T) {
 
 	for _, testCase := range testCases {
 		mockCrypto := mock.NewMockCrypto(ctrl)
-		mockCrypto.
-			EXPECT().
-			GeneratePasswordHash(testCase.Input.Password).
-			Return(testCase.PasswordHash, testCase.PasswordHashError)
+		if testCase.PasswordHash != nil || testCase.PasswordHashError != nil {
+			mockCrypto.
+				EXPECT().
+				GeneratePasswordHash(testCase.Input.Password).
+				Return(testCase.PasswordHash, testCase.PasswordHashError)
+		}
 
 		mockDatabase := mock.NewMockDatabase(ctrl)
-		mockDatabase.
-			EXPECT().
-			CreateUser(&database.CreateUserInput{
-				Context:      testCase.Input.Context,
-				Email:        testCase.Input.Email,
-				PasswordHash: testCase.PasswordHash,
-			}).
-			Return(testCase.CreateUserOutput, testCase.CreateUserError)
+		if testCase.CreateUserOutput != nil || testCase.CreateUserError != nil {
+			mockDatabase.
+				EXPECT().
+				CreateUser(&database.CreateUserInput{
+					Context:      testCase.Input.Context,
+					Email:        testCase.Input.Email,
+					PasswordHash: testCase.PasswordHash,
+				}).
+				Return(testCase.CreateUserOutput, testCase.CreateUserError)
+		}
 
 		core := New(Options{
 			Crypto:   mockCrypto,

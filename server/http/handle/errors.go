@@ -2,14 +2,18 @@ package handle
 
 import (
 	"encoding/json"
-	"github.com/davidchristie/identity/core"
 	"net/http"
+
+	"github.com/davidchristie/identity/core"
 )
 
 func writeError(err error, writer http.ResponseWriter) {
 	switch err {
 	case core.ErrEmailAlreadyInUse:
 		writeErrorMessage(http.StatusBadRequest, "This email is already in use.", writer)
+
+	case core.ErrShortPassword:
+		writeErrorMessage(http.StatusBadRequest, "This password is not long enough.", writer)
 
 	default:
 		writeErrorMessage(http.StatusInternalServerError, "An unknown error has occured.", writer)

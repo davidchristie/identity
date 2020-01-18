@@ -8,6 +8,8 @@ import (
 	"github.com/davidchristie/identity/database"
 )
 
+const minPasswordLength = 8
+
 // SignupInput ...
 type SignupInput struct {
 	Context  context.Context
@@ -19,6 +21,10 @@ type SignupInput struct {
 type SignupOutput struct{}
 
 func (c *core) Signup(input *SignupInput) (*SignupOutput, error) {
+	err := validateSignupInput(input)
+	if err != nil {
+		return nil, err
+	}
 	passwordHash, err := c.Crypto.GeneratePasswordHash(input.Password)
 	if err != nil {
 		return nil, err
@@ -41,4 +47,11 @@ func (c *core) Signup(input *SignupInput) (*SignupOutput, error) {
 	}
 	fmt.Println("User created")
 	return &SignupOutput{}, nil
+}
+
+func validateSignupInput(input *SignupInput) error {
+	if len(input.Password) < minPasswordLength {
+		return ErrShortPassword
+	}
+	return nil
 }
