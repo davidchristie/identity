@@ -9,11 +9,8 @@ import (
 
 const connStr = "postgres://identity:identity@postgres:5432/identity?sslmode=disable"
 
-// ErrNoContext no context was passed to the method.
-var ErrNoContext = errors.New("No context specified")
-
 // ErrNotImplemented the method has not been implemented yet.
-var ErrNotImplemented = errors.New("Not implemented")
+var ErrNotImplemented = errors.New("not implemented")
 
 type postgresDatabase struct{}
 

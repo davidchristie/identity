@@ -10,7 +10,7 @@ import (
 
 func (p *postgresDatabase) CreateUser(input *database.CreateUserInput) (*database.User, error) {
 	if input.Context == nil {
-		return nil, ErrNoContext
+		return nil, database.ErrNoContext
 	}
 
 	user := &database.User{
@@ -38,6 +38,9 @@ func (p *postgresDatabase) CreateUser(input *database.CreateUserInput) (*databas
 	_, err = tx.Exec(query, user.ID, user.Email, user.PasswordHash)
 	if err != nil {
 		tx.Rollback()
+		if err.Error() == `pq: duplicate key value violates unique constraint "users_email_key"` {
+			return nil, database.ErrDuplicateUserEmail
+		}
 		return nil, err
 	}
 

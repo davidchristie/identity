@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/davidchristie/identity/database"
@@ -29,7 +30,14 @@ func (c *core) Signup(input *SignupInput) (*SignupOutput, error) {
 		PasswordHash: passwordHash,
 	})
 	if err != nil {
-		return nil, err
+		switch err {
+		case database.ErrDuplicateUserEmail:
+			return nil, ErrEmailAlreadyInUse
+
+		default:
+			fmt.Println("[Signup] Unknown error: ", err)
+			return nil, errors.New("unknown error")
+		}
 	}
 	fmt.Println("User created")
 	return &SignupOutput{}, nil

@@ -2,11 +2,15 @@ package handle
 
 import (
 	"encoding/json"
+	"github.com/davidchristie/identity/core"
 	"net/http"
 )
 
 func writeError(err error, writer http.ResponseWriter) {
 	switch err {
+	case core.ErrEmailAlreadyInUse:
+		writeErrorMessage(http.StatusBadRequest, "This email is already in use.", writer)
+
 	default:
 		writeErrorMessage(http.StatusInternalServerError, "An unknown error has occured.", writer)
 	}
