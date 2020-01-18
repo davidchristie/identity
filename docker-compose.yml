@@ -3,6 +3,25 @@ version: "3.7"
 services:
   identity:
     build: .
+    depends_on:
+      - postgres-migrate
     image: identity
     ports:
       - 8080:8080
+
+  postgres:
+    environment:
+      - POSTGRES_DB=identity
+      - POSTGRES_PASSWORD=identity
+      - POSTGRES_USER=identity
+    image: postgres:12.0
+    restart: always
+
+  postgres-migrate:
+    command: -database postgres://identity:identity@postgres:5432/identity?sslmode=disable -path=/migrations/ up
+    depends_on:
+      - postgres
+    image: migrate/migrate
+    restart: on-failure
+    volumes:
+      - ./migrate/sql:/migrations

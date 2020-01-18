@@ -1,48 +1,51 @@
 package postgres
 
-import "github.com/davidchristie/identity/database"
+import (
+	"errors"
 
-import "errors"
+	"github.com/davidchristie/identity/database"
+	_ "github.com/lib/pq" // postgres driver
+)
 
-const connStr = "postgres://accounts:acc0unts_secret123@accounts-database:5432/accounts?sslmode=disable"
+const connStr = "postgres://identity:identity@postgres:5432/identity?sslmode=disable"
 
-var errNotImplemented = errors.New("Not implemeneted")
+// ErrNoContext no context was passed to the method.
+var ErrNoContext = errors.New("No context specified")
+
+// ErrNotImplemented the method has not been implemented yet.
+var ErrNotImplemented = errors.New("Not implemented")
 
 type postgresDatabase struct{}
 
-// New ...
+// New creates a new Postgres database instance.
 func New() database.Database {
 	return &postgresDatabase{}
 }
 
 func (p *postgresDatabase) CreateAccessToken(*database.CreateAccessTokenInput) (*database.AccessToken, error) {
-	return nil, errNotImplemented
-}
-
-func (p *postgresDatabase) CreateUser(*database.CreateUserInput) (*database.User, error) {
-	return nil, errNotImplemented
+	return nil, ErrNotImplemented
 }
 
 func (p *postgresDatabase) DeleteAccessToken(id string) error {
-	return errNotImplemented
+	return ErrNotImplemented
 }
 
 func (p *postgresDatabase) DeleteUser(id string) error {
-	return errNotImplemented
+	return ErrNotImplemented
 }
 
 func (p *postgresDatabase) GetAccessTokenByID(id string) (*database.AccessToken, error) {
-	return nil, errNotImplemented
+	return nil, ErrNotImplemented
 }
 
 func (p *postgresDatabase) GetUserByEmail(email string) (*database.User, error) {
-	return nil, errNotImplemented
+	return nil, ErrNotImplemented
 }
 
 func (p *postgresDatabase) GetUserByID(id string) (*database.User, error) {
-	return nil, errNotImplemented
+	return nil, ErrNotImplemented
 }
 
 func (p *postgresDatabase) UpdateUser(input *database.UpdateUserInput) error {
-	return errNotImplemented
+	return ErrNotImplemented
 }

@@ -1,11 +1,15 @@
 package database
 
+import (
+	"github.com/google/uuid"
+)
+
 // User ...
 type User struct {
 	CreatedAt    string
 	DeletedAt    *string
 	Email        string
-	ID           string
+	ID           uuid.UUID
 	PasswordHash []byte
 	UpdatedAt    string
 }

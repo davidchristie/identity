@@ -8,7 +8,7 @@ import (
 func writeError(err error, writer http.ResponseWriter) {
 	switch err {
 	default:
-		writeErrorMessage(500, "An unknown error has occured.", writer)
+		writeErrorMessage(http.StatusInternalServerError, "An unknown error has occured.", writer)
 	}
 }
 

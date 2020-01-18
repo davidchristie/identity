@@ -1,9 +1,15 @@
 package core
 
-import "github.com/davidchristie/identity/database"
+import (
+	"context"
+	"fmt"
+
+	"github.com/davidchristie/identity/database"
+)
 
 // SignupInput ...
 type SignupInput struct {
+	Context  context.Context
 	Email    string
 	Password string
 }
@@ -16,12 +22,15 @@ func (c *core) Signup(input *SignupInput) (*SignupOutput, error) {
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("Creating new user...")
 	_, err = c.Database.CreateUser(&database.CreateUserInput{
+		Context:      input.Context,
 		Email:        input.Email,
 		PasswordHash: passwordHash,
 	})
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("User created")
 	return &SignupOutput{}, nil
 }

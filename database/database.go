@@ -2,11 +2,16 @@
 
 package database
 
+import (
+	"context"
+)
+
 // CreateAccessTokenInput ...
 type CreateAccessTokenInput struct{}
 
 // CreateUserInput ...
 type CreateUserInput struct {
+	Context      context.Context
 	Email        string
 	PasswordHash []byte
 }
