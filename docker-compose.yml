@@ -1,0 +1,8 @@
+version: "3.7"
+
+services:
+  identity:
+    build: .
+    image: identity
+    ports:
+      - 8080:8080
