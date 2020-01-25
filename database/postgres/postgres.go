@@ -1,7 +1,9 @@
 package postgres
 
 import (
+	"database/sql"
 	"errors"
+	"log"
 
 	"github.com/davidchristie/identity/database"
 	_ "github.com/lib/pq" // postgres driver
@@ -12,11 +14,19 @@ const connStr = "postgres://identity:identity@postgres:5432/identity?sslmode=dis
 // ErrNotImplemented the method has not been implemented yet.
 var ErrNotImplemented = errors.New("not implemented")
 
-type postgresDatabase struct{}
+type postgresDatabase struct {
+	DB *sql.DB
+}
 
 // New creates a new Postgres database instance.
 func New() database.Database {
-	return &postgresDatabase{}
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		log.Fatal("Error connecting to database: ", err)
+	}
+	return &postgresDatabase{
+		DB: db,
+	}
 }
 
 func (p *postgresDatabase) CreateAccessToken(*database.CreateAccessTokenInput) (*database.AccessToken, error) {
@@ -35,7 +45,7 @@ func (p *postgresDatabase) GetAccessTokenByID(id string) (*database.AccessToken,
 	return nil, ErrNotImplemented
 }
 
-func (p *postgresDatabase) GetUserByEmail(email string) (*database.User, error) {
+func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (*database.User, error) {
 	return nil, ErrNotImplemented
 }
 

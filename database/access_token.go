@@ -1,9 +1,13 @@
 package database
 
+import (
+	"github.com/google/uuid"
+)
+
 // AccessToken ...
 type AccessToken struct {
 	CreatedAt string
-	DeletedAt string
-	ID        string
-	UserID    string
+	DeletedAt *string
+	ID        uuid.UUID
+	UserID    uuid.UUID
 }

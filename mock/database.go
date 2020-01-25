@@ -107,7 +107,7 @@ func (mr *MockDatabaseMockRecorder) GetAccessTokenByID(arg0 interface{}) *gomock
 }
 
 // GetUserByEmail mocks base method
-func (m *MockDatabase) GetUserByEmail(arg0 string) (*database.User, error) {
+func (m *MockDatabase) GetUserByEmail(arg0 *database.GetUserByEmailInput) (*database.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByEmail", arg0)
 	ret0, _ := ret[0].(*database.User)

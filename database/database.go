@@ -4,16 +4,27 @@ package database
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 // CreateAccessTokenInput ...
-type CreateAccessTokenInput struct{}
+type CreateAccessTokenInput struct {
+	Context context.Context
+	UserID  uuid.UUID
+}
 
 // CreateUserInput ...
 type CreateUserInput struct {
 	Context      context.Context
 	Email        string
 	PasswordHash []byte
+}
+
+// GetUserByEmailInput ...
+type GetUserByEmailInput struct {
+	Context context.Context
+	Email   string
 }
 
 // UpdateUserInput ...
@@ -26,7 +37,7 @@ type Database interface {
 	DeleteAccessToken(id string) error
 	DeleteUser(id string) error
 	GetAccessTokenByID(id string) (*AccessToken, error)
-	GetUserByEmail(email string) (*User, error)
+	GetUserByEmail(*GetUserByEmailInput) (*User, error)
 	GetUserByID(id string) (*User, error)
 	UpdateUser(*UpdateUserInput) error
 }
