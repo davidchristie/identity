@@ -16,6 +16,6 @@ jobs:
       - name: Run unit tests
         run: go test -coverprofile c.out ./...
       - name: Report test coverage
-        run: ./cc-test-reporter after-build -p $(go list -m) -t gocov
+        run: ./cc-test-reporter after-build -p $(go list -m)
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_REPORTER_ID }}
