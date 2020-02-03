@@ -7,6 +7,7 @@ package mock
 import (
 	database "github.com/davidchristie/identity/database"
 	gomock "github.com/golang/mock/gomock"
+	uuid "github.com/google/uuid"
 	reflect "reflect"
 )
 
@@ -64,7 +65,7 @@ func (mr *MockDatabaseMockRecorder) CreateUser(arg0 interface{}) *gomock.Call {
 }
 
 // DeleteAccessToken mocks base method
-func (m *MockDatabase) DeleteAccessToken(arg0 string) error {
+func (m *MockDatabase) DeleteAccessToken(arg0 uuid.UUID) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteAccessToken", arg0)
 	ret0, _ := ret[0].(error)
@@ -78,7 +79,7 @@ func (mr *MockDatabaseMockRecorder) DeleteAccessToken(arg0 interface{}) *gomock.
 }
 
 // DeleteUser mocks base method
-func (m *MockDatabase) DeleteUser(arg0 string) error {
+func (m *MockDatabase) DeleteUser(arg0 uuid.UUID) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteUser", arg0)
 	ret0, _ := ret[0].(error)
@@ -92,7 +93,7 @@ func (mr *MockDatabaseMockRecorder) DeleteUser(arg0 interface{}) *gomock.Call {
 }
 
 // GetAccessTokenByID mocks base method
-func (m *MockDatabase) GetAccessTokenByID(arg0 string) (*database.AccessToken, error) {
+func (m *MockDatabase) GetAccessTokenByID(arg0 uuid.UUID) (*database.AccessToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAccessTokenByID", arg0)
 	ret0, _ := ret[0].(*database.AccessToken)
@@ -122,7 +123,7 @@ func (mr *MockDatabaseMockRecorder) GetUserByEmail(arg0 interface{}) *gomock.Cal
 }
 
 // GetUserByID mocks base method
-func (m *MockDatabase) GetUserByID(arg0 string) (*database.User, error) {
+func (m *MockDatabase) GetUserByID(arg0 uuid.UUID) (*database.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByID", arg0)
 	ret0, _ := ret[0].(*database.User)

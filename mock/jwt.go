@@ -5,6 +5,7 @@
 package mock
 
 import (
+	database "github.com/davidchristie/identity/database"
 	jwt "github.com/davidchristie/identity/jwt"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
@@ -31,6 +32,21 @@ func NewMockJWT(ctrl *gomock.Controller) *MockJWT {
 // EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockJWT) EXPECT() *MockJWTMockRecorder {
 	return m.recorder
+}
+
+// Parse mocks base method
+func (m *MockJWT) Parse(arg0 string) (*database.AccessToken, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Parse", arg0)
+	ret0, _ := ret[0].(*database.AccessToken)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Parse indicates an expected call of Parse
+func (mr *MockJWTMockRecorder) Parse(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Parse", reflect.TypeOf((*MockJWT)(nil).Parse), arg0)
 }
 
 // SignedString mocks base method

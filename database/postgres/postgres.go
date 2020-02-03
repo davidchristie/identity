@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/davidchristie/identity/database"
+	"github.com/google/uuid"
 	_ "github.com/lib/pq" // postgres driver
 )
 
@@ -33,15 +34,15 @@ func (p *postgresDatabase) CreateAccessToken(*database.CreateAccessTokenInput) (
 	return nil, ErrNotImplemented
 }
 
-func (p *postgresDatabase) DeleteAccessToken(id string) error {
+func (p *postgresDatabase) DeleteAccessToken(id uuid.UUID) error {
 	return ErrNotImplemented
 }
 
-func (p *postgresDatabase) DeleteUser(id string) error {
+func (p *postgresDatabase) DeleteUser(id uuid.UUID) error {
 	return ErrNotImplemented
 }
 
-func (p *postgresDatabase) GetAccessTokenByID(id string) (*database.AccessToken, error) {
+func (p *postgresDatabase) GetAccessTokenByID(id uuid.UUID) (*database.AccessToken, error) {
 	return nil, ErrNotImplemented
 }
 
@@ -49,7 +50,7 @@ func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (
 	return nil, ErrNotImplemented
 }
 
-func (p *postgresDatabase) GetUserByID(id string) (*database.User, error) {
+func (p *postgresDatabase) GetUserByID(id uuid.UUID) (*database.User, error) {
 	return nil, ErrNotImplemented
 }
 

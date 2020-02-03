@@ -34,10 +34,10 @@ type UpdateUserInput struct{}
 type Database interface {
 	CreateAccessToken(*CreateAccessTokenInput) (*AccessToken, error)
 	CreateUser(*CreateUserInput) (*User, error)
-	DeleteAccessToken(id string) error
-	DeleteUser(id string) error
-	GetAccessTokenByID(id string) (*AccessToken, error)
+	DeleteAccessToken(id uuid.UUID) error
+	DeleteUser(id uuid.UUID) error
+	GetAccessTokenByID(id uuid.UUID) (*AccessToken, error)
 	GetUserByEmail(*GetUserByEmailInput) (*User, error)
-	GetUserByID(id string) (*User, error)
+	GetUserByID(id uuid.UUID) (*User, error)
 	UpdateUser(*UpdateUserInput) error
 }
