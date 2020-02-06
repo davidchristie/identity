@@ -5,18 +5,18 @@ import (
 	"testing"
 
 	"github.com/davidchristie/identity/core"
-	"github.com/davidchristie/identity/entity"
 	"github.com/davidchristie/identity/mock"
+	"github.com/davidchristie/identity/token"
 	"github.com/golang/mock/gomock"
 )
 
 type logoutTestCase struct {
-	DeleteSessionError error
-	ExpectedError      error
-	ExpectedOutput     *core.LogoutOutput
-	Input              *core.LogoutInput
-	ParseError         error
-	ParseOutput        *entity.Session
+	DeleteSessionError     error
+	ExpectedError          error
+	ExpectedOutput         *core.LogoutOutput
+	Input                  *core.LogoutInput
+	ParseAccessTokenError  error
+	ParseAccessTokenOutput *token.Content
 }
 
 var logoutTestCases = []logoutTestCase{
@@ -28,8 +28,8 @@ var logoutTestCases = []logoutTestCase{
 		Input: &core.LogoutInput{
 			AccessToken: jwt1,
 		},
-		ParseError: nil,
-		ParseOutput: &entity.Session{
+		ParseAccessTokenError: nil,
+		ParseAccessTokenOutput: &token.Content{
 			ID: uuid1,
 		},
 	},
@@ -43,23 +43,23 @@ func TestLogout(t *testing.T) {
 	for _, testCase := range logoutTestCases {
 
 		mockDatabase := mock.NewMockDatabase(ctrl)
-		if testCase.ParseOutput != nil {
+		if testCase.ParseAccessTokenOutput != nil {
 			mockDatabase.
 				EXPECT().
-				DeleteSession(testCase.ParseOutput.ID).
+				DeleteSession(testCase.ParseAccessTokenOutput.ID).
 				Return(testCase.DeleteSessionError)
 		}
 
-		mockJWT := mock.NewMockJWT(ctrl)
-		mockJWT.
+		mockToken := mock.NewMockToken(ctrl)
+		mockToken.
 			EXPECT().
-			Parse(testCase.Input.AccessToken).
-			Return(testCase.ParseOutput, testCase.ParseError)
+			ParseAccessToken(testCase.Input.AccessToken).
+			Return(testCase.ParseAccessTokenOutput, testCase.ParseAccessTokenError)
 
 		core := core.New(core.Options{
 			Crypto:   mock.NewMockCrypto(ctrl),
 			Database: mockDatabase,
-			JWT:      mockJWT,
+			Token:    mockToken,
 		})
 
 		output, err := core.Logout(testCase.Input)

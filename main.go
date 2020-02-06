@@ -10,17 +10,17 @@ import (
 	"github.com/davidchristie/identity/crypto/bcrypt"
 	"github.com/davidchristie/identity/database"
 	"github.com/davidchristie/identity/database/postgres"
-	"github.com/davidchristie/identity/jwt"
-	jwtGo "github.com/davidchristie/identity/jwt/jwt_go"
 	"github.com/davidchristie/identity/server"
 	"github.com/davidchristie/identity/server/http"
+	"github.com/davidchristie/identity/token"
+	"github.com/davidchristie/identity/token/jwt"
 )
 
 type options struct {
 	Crypto   crypto.Crypto
 	Database database.Database
-	JWT      jwt.JWT
 	Server   server.Server
+	Token    token.Token
 }
 
 func main() {
@@ -28,8 +28,8 @@ func main() {
 	err := startService(&options{
 		Crypto:   bcrypt.New(),
 		Database: postgres.New(config.Database()),
-		JWT:      jwtGo.New(config.Token()),
 		Server:   http.New(config.Server()),
+		Token:    jwt.New(config.Token()),
 	})
 	if err != nil {
 		log.Fatal("Fatal error in service: ", err)
@@ -41,7 +41,7 @@ func startService(options *options) error {
 	core := core.New(core.Options{
 		Crypto:   options.Crypto,
 		Database: options.Database,
-		JWT:      options.JWT,
+		Token:      options.Token,
 	})
 	return options.Server.Serve(core)
 }

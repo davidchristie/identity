@@ -9,7 +9,7 @@ type LogoutInput struct {
 type LogoutOutput struct{}
 
 func (c *core) Logout(input *LogoutInput) (*LogoutOutput, error) {
-	token, err := c.JWT.Parse(input.AccessToken)
+	token, err := c.Token.ParseAccessToken(input.AccessToken)
 	if err != nil {
 		return nil, err
 	}

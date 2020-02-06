@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/davidchristie/identity/database"
-	"github.com/davidchristie/identity/jwt"
+	"github.com/davidchristie/identity/token"
 )
 
 // LoginInput ...
@@ -43,7 +43,7 @@ func (c *core) Login(input *LoginInput) (*LoginOutput, error) {
 		return nil, err
 	}
 
-	tokenString, err := c.JWT.SignedString(&jwt.SignedStringInput{
+	tokenString, err := c.Token.NewAccessToken(&token.Content{
 		ID: session.ID,
 	})
 	if err != nil {

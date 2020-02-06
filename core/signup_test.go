@@ -89,7 +89,7 @@ func TestSignup(t *testing.T) {
 		core := core.New(core.Options{
 			Crypto:   mockCrypto,
 			Database: mockDatabase,
-			JWT:      mock.NewMockJWT(ctrl),
+			Token:    mock.NewMockToken(ctrl),
 		})
 
 		output, err := core.Signup(testCase.Input)

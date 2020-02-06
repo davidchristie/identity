@@ -5,7 +5,7 @@ import (
 
 	"github.com/davidchristie/identity/crypto"
 	"github.com/davidchristie/identity/database"
-	"github.com/davidchristie/identity/jwt"
+	"github.com/davidchristie/identity/token"
 )
 
 // Core ...
@@ -19,14 +19,14 @@ type Core interface {
 type core struct {
 	Crypto   crypto.Crypto
 	Database database.Database
-	JWT      jwt.JWT
+	Token    token.Token
 }
 
 // Options ...
 type Options struct {
 	Crypto   crypto.Crypto
 	Database database.Database
-	JWT      jwt.JWT
+	Token    token.Token
 }
 
 // New ...
@@ -37,12 +37,12 @@ func New(options Options) Core {
 	if options.Database == nil {
 		log.Fatal("Database implementation not specified")
 	}
-	if options.JWT == nil {
-		log.Fatal("JWT implementation not specified")
+	if options.Token == nil {
+		log.Fatal("Token implementation not specified")
 	}
 	return &core{
 		Crypto:   options.Crypto,
 		Database: options.Database,
-		JWT:      options.JWT,
+		Token:    options.Token,
 	}
 }
