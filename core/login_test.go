@@ -7,8 +7,8 @@ import (
 	"github.com/davidchristie/identity/core"
 	"github.com/davidchristie/identity/database"
 	"github.com/davidchristie/identity/entity"
-	"github.com/davidchristie/identity/jwt"
 	"github.com/davidchristie/identity/mock"
+	"github.com/davidchristie/identity/token"
 	"github.com/golang/mock/gomock"
 )
 
@@ -74,10 +74,10 @@ func TestLogin(t *testing.T) {
 			}).
 			Return(testCase.CreateSessionOutput, testCase.CreateSessionError)
 
-		mockJWT := mock.NewMockJWT(ctrl)
-		mockJWT.
+		mockToken := mock.NewMockToken(ctrl)
+		mockToken.
 			EXPECT().
-			SignedString(&jwt.SignedStringInput{
+			NewAccessToken(&token.Content{
 				ID: testCase.CreateSessionOutput.ID,
 			}).
 			Return(jwt1, nil)
@@ -85,7 +85,7 @@ func TestLogin(t *testing.T) {
 		core := core.New(core.Options{
 			Crypto:   mockCrypto,
 			Database: mockDatabase,
-			JWT:      mockJWT,
+			Token:    mockToken,
 		})
 
 		output, err := core.Login(testCase.Input)
