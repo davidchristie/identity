@@ -8,9 +8,9 @@ import (
 type token struct{}
 
 func (t *token) Secret() string {
-	port := os.Getenv("TOKEN_SECRET")
-	if port == "" {
+	secret := os.Getenv("TOKEN_SECRET")
+	if secret == "" {
 		log.Fatal("$TOKEN_SECRET must be set")
 	}
-	return port
+	return secret
 }
