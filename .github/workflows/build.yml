@@ -14,7 +14,8 @@ jobs:
         run: docker-compose config
       - name: Start docker services
         run: docker-compose up -d
-      - name: Print docker logs
-        run: docker-compose logs
       - name: Run acceptance tests
         run: go test ./test/acceptance/...
+      - if: failure()
+        name: Print docker logs
+        run: docker-compose logs
