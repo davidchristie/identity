@@ -27,6 +27,7 @@ func writeErrorMessage(code int, message string, writer http.ResponseWriter) {
 		Message string `json:"message"`
 	}{message}
 	blob, _ := json.Marshal(data)
+	addContentTypeJSONHeader(writer)
 	writer.WriteHeader(code)
 	writer.Write(blob)
 }
