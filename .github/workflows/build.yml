@@ -14,6 +14,8 @@ jobs:
         run: docker-compose config
       - name: Start docker services
         run: docker-compose up -d
+      - name: Wait 10 seconds
+        run: sleep 10
       - name: Run acceptance tests
         run: go test ./test/acceptance/...
       - if: failure()
