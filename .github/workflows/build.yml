@@ -8,14 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Install test coverage reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter before-build
       - name: Run unit tests
-        run: go test -coverprofile c.out ./...
-      - name: Report test coverage
-        run: ./cc-test-reporter after-build -p $(go list -m)
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CODE_CLIMATE_TEST_REPORTER_ID }}
+        run: go test $(go list ./... | grep -v /test/)
+      - name: Start docker services
+        run: docker-compose up -d
+      - name: Run acceptance tests
+        run: go test ./test/acceptance/...
