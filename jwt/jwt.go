@@ -14,6 +14,6 @@ type SignedStringInput struct {
 
 // JWT ...
 type JWT interface {
-	Parse(jwt string) (*database.AccessToken, error)
+	Parse(string) (*database.AccessToken, error)
 	SignedString(*SignedStringInput) (string, error)
 }

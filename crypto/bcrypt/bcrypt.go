@@ -20,5 +20,5 @@ func (c *bcryptCrypto) GeneratePasswordHash(password string) ([]byte, error) {
 }
 
 func (c *bcryptCrypto) IsCorrectPassword(password string, hash []byte) bool {
-	return bcrypt.CompareHashAndPassword(hash, []byte(password)) != nil
+	return bcrypt.CompareHashAndPassword(hash, []byte(password)) == nil
 }
