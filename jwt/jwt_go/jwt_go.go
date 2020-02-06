@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/davidchristie/identity/jwt"
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
@@ -13,15 +13,15 @@ import (
 // TODO: Get this secret from environment.
 var hmacSampleSecret = []byte("YBgJ7-QtP8RNW7QkNd7o")
 
-type jwtGoAdapter struct{}
+type adapter struct{}
 
 // New creates a new jwt-go adapter.
 func New() jwt.JWT {
-	var adapter jwt.JWT = &jwtGoAdapter{}
+	var adapter jwt.JWT = &adapter{}
 	return adapter
 }
 
-func (j *jwtGoAdapter) Parse(tokenString string) (*database.AccessToken, error) {
+func (j *adapter) Parse(tokenString string) (*entity.AccessToken, error) {
 	token, err := jwtGo.Parse(tokenString, func(token *jwtGo.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwtGo.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -34,7 +34,7 @@ func (j *jwtGoAdapter) Parse(tokenString string) (*database.AccessToken, error) 
 			if err != nil {
 				return nil, err
 			}
-			return &database.AccessToken{
+			return &entity.AccessToken{
 				ID: id,
 			}, nil
 		}
@@ -43,22 +43,14 @@ func (j *jwtGoAdapter) Parse(tokenString string) (*database.AccessToken, error) 
 	return nil, err
 }
 
-func (j *jwtGoAdapter) SignedString(input *jwt.SignedStringInput) (string, error) {
-	fmt.Println("SignedString 1")
-
+func (j *adapter) SignedString(input *jwt.SignedStringInput) (string, error) {
 	token := jwtGo.NewWithClaims(jwtGo.SigningMethodHS256, jwtGo.MapClaims{
 		"id": input.ID.String(),
 	})
-
-	fmt.Println("SignedString 2")
-
 	tokenString, err := token.SignedString(hmacSampleSecret)
 	if err != nil {
 		fmt.Println(err)
 		return "", err
 	}
-
-	fmt.Println("SignedString 3")
-
 	return tokenString, nil
 }

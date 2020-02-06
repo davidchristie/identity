@@ -5,7 +5,7 @@
 package mock
 
 import (
-	database "github.com/davidchristie/identity/database"
+	entity "github.com/davidchristie/identity/entity"
 	jwt "github.com/davidchristie/identity/jwt"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
@@ -35,10 +35,10 @@ func (m *MockJWT) EXPECT() *MockJWTMockRecorder {
 }
 
 // Parse mocks base method
-func (m *MockJWT) Parse(arg0 string) (*database.AccessToken, error) {
+func (m *MockJWT) Parse(arg0 string) (*entity.AccessToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Parse", arg0)
-	ret0, _ := ret[0].(*database.AccessToken)
+	ret0, _ := ret[0].(*entity.AccessToken)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

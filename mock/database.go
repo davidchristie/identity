@@ -6,6 +6,7 @@ package mock
 
 import (
 	database "github.com/davidchristie/identity/database"
+	entity "github.com/davidchristie/identity/entity"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 	reflect "reflect"
@@ -35,10 +36,10 @@ func (m *MockDatabase) EXPECT() *MockDatabaseMockRecorder {
 }
 
 // CreateAccessToken mocks base method
-func (m *MockDatabase) CreateAccessToken(arg0 *database.CreateAccessTokenInput) (*database.AccessToken, error) {
+func (m *MockDatabase) CreateAccessToken(arg0 *database.CreateAccessTokenInput) (*entity.AccessToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateAccessToken", arg0)
-	ret0, _ := ret[0].(*database.AccessToken)
+	ret0, _ := ret[0].(*entity.AccessToken)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -50,10 +51,10 @@ func (mr *MockDatabaseMockRecorder) CreateAccessToken(arg0 interface{}) *gomock.
 }
 
 // CreateUser mocks base method
-func (m *MockDatabase) CreateUser(arg0 *database.CreateUserInput) (*database.User, error) {
+func (m *MockDatabase) CreateUser(arg0 *database.CreateUserInput) (*entity.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateUser", arg0)
-	ret0, _ := ret[0].(*database.User)
+	ret0, _ := ret[0].(*entity.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -93,10 +94,10 @@ func (mr *MockDatabaseMockRecorder) DeleteUser(arg0 interface{}) *gomock.Call {
 }
 
 // GetAccessTokenByID mocks base method
-func (m *MockDatabase) GetAccessTokenByID(arg0 uuid.UUID) (*database.AccessToken, error) {
+func (m *MockDatabase) GetAccessTokenByID(arg0 uuid.UUID) (*entity.AccessToken, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAccessTokenByID", arg0)
-	ret0, _ := ret[0].(*database.AccessToken)
+	ret0, _ := ret[0].(*entity.AccessToken)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -108,10 +109,10 @@ func (mr *MockDatabaseMockRecorder) GetAccessTokenByID(arg0 interface{}) *gomock
 }
 
 // GetUserByEmail mocks base method
-func (m *MockDatabase) GetUserByEmail(arg0 *database.GetUserByEmailInput) (*database.User, error) {
+func (m *MockDatabase) GetUserByEmail(arg0 *database.GetUserByEmailInput) (*entity.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByEmail", arg0)
-	ret0, _ := ret[0].(*database.User)
+	ret0, _ := ret[0].(*entity.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -123,10 +124,10 @@ func (mr *MockDatabaseMockRecorder) GetUserByEmail(arg0 interface{}) *gomock.Cal
 }
 
 // GetUserByID mocks base method
-func (m *MockDatabase) GetUserByID(arg0 uuid.UUID) (*database.User, error) {
+func (m *MockDatabase) GetUserByID(arg0 uuid.UUID) (*entity.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByID", arg0)
-	ret0, _ := ret[0].(*database.User)
+	ret0, _ := ret[0].(*entity.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

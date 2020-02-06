@@ -6,13 +6,14 @@ import (
 
 	"github.com/davidchristie/identity/core"
 	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/davidchristie/identity/mock"
 	"github.com/golang/mock/gomock"
 )
 
 type signupTestCase struct {
 	CreateUserError   error
-	CreateUserOutput  *database.User
+	CreateUserOutput  *entity.User
 	ExpectedError     error
 	ExpectedOutput    *core.SignupOutput
 	Input             *core.SignupInput
@@ -23,7 +24,7 @@ type signupTestCase struct {
 var signupTestCases = []signupTestCase{
 	// Successful signup
 	signupTestCase{
-		CreateUserOutput: &database.User{
+		CreateUserOutput: &entity.User{
 			ID:    uuid1,
 			Email: email1,
 		},

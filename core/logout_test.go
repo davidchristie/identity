@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/davidchristie/identity/core"
-	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/davidchristie/identity/mock"
 	"github.com/golang/mock/gomock"
 )
@@ -16,7 +16,7 @@ type logoutTestCase struct {
 	ExpectedOutput         *core.LogoutOutput
 	Input                  *core.LogoutInput
 	ParseError             error
-	ParseOutput            *database.AccessToken
+	ParseOutput            *entity.AccessToken
 }
 
 var logoutTestCases = []logoutTestCase{
@@ -29,7 +29,7 @@ var logoutTestCases = []logoutTestCase{
 			AccessToken: jwt1,
 		},
 		ParseError: nil,
-		ParseOutput: &database.AccessToken{
+		ParseOutput: &entity.AccessToken{
 			ID: uuid1,
 		},
 	},

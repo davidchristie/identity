@@ -6,6 +6,7 @@ import (
 
 	"github.com/davidchristie/identity/core"
 	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/davidchristie/identity/jwt"
 	"github.com/davidchristie/identity/mock"
 	"github.com/golang/mock/gomock"
@@ -13,11 +14,11 @@ import (
 
 type loginTestCase struct {
 	CreateAccessTokenError  error
-	CreateAccessTokenOutput *database.AccessToken
+	CreateAccessTokenOutput *entity.AccessToken
 	ExpectedOutput          *core.LoginOutput
 	ExpectedError           error
 	GetUserByEmailError     error
-	GetUserByEmailOutput    *database.User
+	GetUserByEmailOutput    *entity.User
 	Input                   *core.LoginInput
 	IsCorrectPassword       bool
 }
@@ -25,14 +26,14 @@ type loginTestCase struct {
 var loginTestCases = []loginTestCase{
 	// Successful signup
 	loginTestCase{
-		CreateAccessTokenOutput: &database.AccessToken{
+		CreateAccessTokenOutput: &entity.AccessToken{
 			ID: uuid2,
 		},
 		ExpectedOutput: &core.LoginOutput{
 			AccessToken: jwt1,
 		},
 		GetUserByEmailError: nil,
-		GetUserByEmailOutput: &database.User{
+		GetUserByEmailOutput: &entity.User{
 			ID:           uuid1,
 			PasswordHash: hash1,
 		},
