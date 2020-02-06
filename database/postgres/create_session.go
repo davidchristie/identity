@@ -8,14 +8,14 @@ import (
 	"github.com/google/uuid"
 )
 
-const createAccessTokenQuery = `INSERT INTO access_tokens (id, user_id) VALUES ($1, $2);`
+const createSessionQuery = `INSERT INTO sessions (id, user_id) VALUES ($1, $2);`
 
-func (p *postgresDatabase) CreateAccessToken(input *database.CreateAccessTokenInput) (*entity.AccessToken, error) {
+func (p *postgresDatabase) CreateSession(input *database.CreateSessionInput) (*entity.Session, error) {
 	if input.Context == nil {
 		return nil, database.ErrNoContext
 	}
 
-	token := &entity.AccessToken{
+	token := &entity.Session{
 		ID:     uuid.New(),
 		UserID: input.UserID,
 	}
@@ -25,7 +25,7 @@ func (p *postgresDatabase) CreateAccessToken(input *database.CreateAccessTokenIn
 		return nil, err
 	}
 
-	_, err = tx.Exec(createAccessTokenQuery, token.ID, token.UserID)
+	_, err = tx.Exec(createSessionQuery, token.ID, token.UserID)
 	if err != nil {
 		tx.Rollback()
 		return nil, err

@@ -31,7 +31,7 @@ func New() database.Database {
 	}
 }
 
-func (p *postgresDatabase) DeleteAccessToken(id uuid.UUID) error {
+func (p *postgresDatabase) DeleteSession(id uuid.UUID) error {
 	return ErrNotImplemented
 }
 
@@ -39,7 +39,7 @@ func (p *postgresDatabase) DeleteUser(id uuid.UUID) error {
 	return ErrNotImplemented
 }
 
-func (p *postgresDatabase) GetAccessTokenByID(id uuid.UUID) (*entity.AccessToken, error) {
+func (p *postgresDatabase) GetSessionByID(id uuid.UUID) (*entity.Session, error) {
 	return nil, ErrNotImplemented
 }
 

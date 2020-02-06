@@ -35,10 +35,10 @@ func (m *MockJWT) EXPECT() *MockJWTMockRecorder {
 }
 
 // Parse mocks base method
-func (m *MockJWT) Parse(arg0 string) (*entity.AccessToken, error) {
+func (m *MockJWT) Parse(arg0 string) (*entity.Session, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Parse", arg0)
-	ret0, _ := ret[0].(*entity.AccessToken)
+	ret0, _ := ret[0].(*entity.Session)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

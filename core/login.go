@@ -35,7 +35,7 @@ func (c *core) Login(input *LoginInput) (*LoginOutput, error) {
 		return nil, ErrWrongPassword
 	}
 
-	token, err := c.Database.CreateAccessToken(&database.CreateAccessTokenInput{
+	session, err := c.Database.CreateSession(&database.CreateSessionInput{
 		Context: input.Context,
 		UserID:  user.ID,
 	})
@@ -44,7 +44,7 @@ func (c *core) Login(input *LoginInput) (*LoginOutput, error) {
 	}
 
 	tokenString, err := c.JWT.SignedString(&jwt.SignedStringInput{
-		ID: token.ID,
+		ID: session.ID,
 	})
 	if err != nil {
 		return nil, err

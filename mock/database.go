@@ -35,19 +35,19 @@ func (m *MockDatabase) EXPECT() *MockDatabaseMockRecorder {
 	return m.recorder
 }
 
-// CreateAccessToken mocks base method
-func (m *MockDatabase) CreateAccessToken(arg0 *database.CreateAccessTokenInput) (*entity.AccessToken, error) {
+// CreateSession mocks base method
+func (m *MockDatabase) CreateSession(arg0 *database.CreateSessionInput) (*entity.Session, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateAccessToken", arg0)
-	ret0, _ := ret[0].(*entity.AccessToken)
+	ret := m.ctrl.Call(m, "CreateSession", arg0)
+	ret0, _ := ret[0].(*entity.Session)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// CreateAccessToken indicates an expected call of CreateAccessToken
-func (mr *MockDatabaseMockRecorder) CreateAccessToken(arg0 interface{}) *gomock.Call {
+// CreateSession indicates an expected call of CreateSession
+func (mr *MockDatabaseMockRecorder) CreateSession(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAccessToken", reflect.TypeOf((*MockDatabase)(nil).CreateAccessToken), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSession", reflect.TypeOf((*MockDatabase)(nil).CreateSession), arg0)
 }
 
 // CreateUser mocks base method
@@ -65,18 +65,18 @@ func (mr *MockDatabaseMockRecorder) CreateUser(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockDatabase)(nil).CreateUser), arg0)
 }
 
-// DeleteAccessToken mocks base method
-func (m *MockDatabase) DeleteAccessToken(arg0 uuid.UUID) error {
+// DeleteSession mocks base method
+func (m *MockDatabase) DeleteSession(arg0 uuid.UUID) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteAccessToken", arg0)
+	ret := m.ctrl.Call(m, "DeleteSession", arg0)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteAccessToken indicates an expected call of DeleteAccessToken
-func (mr *MockDatabaseMockRecorder) DeleteAccessToken(arg0 interface{}) *gomock.Call {
+// DeleteSession indicates an expected call of DeleteSession
+func (mr *MockDatabaseMockRecorder) DeleteSession(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAccessToken", reflect.TypeOf((*MockDatabase)(nil).DeleteAccessToken), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteSession", reflect.TypeOf((*MockDatabase)(nil).DeleteSession), arg0)
 }
 
 // DeleteUser mocks base method
@@ -93,19 +93,19 @@ func (mr *MockDatabaseMockRecorder) DeleteUser(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockDatabase)(nil).DeleteUser), arg0)
 }
 
-// GetAccessTokenByID mocks base method
-func (m *MockDatabase) GetAccessTokenByID(arg0 uuid.UUID) (*entity.AccessToken, error) {
+// GetSessionByID mocks base method
+func (m *MockDatabase) GetSessionByID(arg0 uuid.UUID) (*entity.Session, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAccessTokenByID", arg0)
-	ret0, _ := ret[0].(*entity.AccessToken)
+	ret := m.ctrl.Call(m, "GetSessionByID", arg0)
+	ret0, _ := ret[0].(*entity.Session)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetAccessTokenByID indicates an expected call of GetAccessTokenByID
-func (mr *MockDatabaseMockRecorder) GetAccessTokenByID(arg0 interface{}) *gomock.Call {
+// GetSessionByID indicates an expected call of GetSessionByID
+func (mr *MockDatabaseMockRecorder) GetSessionByID(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccessTokenByID", reflect.TypeOf((*MockDatabase)(nil).GetAccessTokenByID), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSessionByID", reflect.TypeOf((*MockDatabase)(nil).GetSessionByID), arg0)
 }
 
 // GetUserByEmail mocks base method

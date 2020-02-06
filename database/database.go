@@ -9,8 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
-// CreateAccessTokenInput ...
-type CreateAccessTokenInput struct {
+// CreateSessionInput ...
+type CreateSessionInput struct {
 	Context context.Context
 	UserID  uuid.UUID
 }
@@ -33,11 +33,11 @@ type UpdateUserInput struct{}
 
 // Database ...
 type Database interface {
-	CreateAccessToken(*CreateAccessTokenInput) (*entity.AccessToken, error)
+	CreateSession(*CreateSessionInput) (*entity.Session, error)
 	CreateUser(*CreateUserInput) (*entity.User, error)
-	DeleteAccessToken(id uuid.UUID) error
+	DeleteSession(id uuid.UUID) error
 	DeleteUser(id uuid.UUID) error
-	GetAccessTokenByID(id uuid.UUID) (*entity.AccessToken, error)
+	GetSessionByID(id uuid.UUID) (*entity.Session, error)
 	GetUserByEmail(*GetUserByEmailInput) (*entity.User, error)
 	GetUserByID(id uuid.UUID) (*entity.User, error)
 	UpdateUser(*UpdateUserInput) error

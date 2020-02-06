@@ -13,20 +13,20 @@ import (
 )
 
 type loginTestCase struct {
-	CreateAccessTokenError  error
-	CreateAccessTokenOutput *entity.AccessToken
-	ExpectedOutput          *core.LoginOutput
-	ExpectedError           error
-	GetUserByEmailError     error
-	GetUserByEmailOutput    *entity.User
-	Input                   *core.LoginInput
-	IsCorrectPassword       bool
+	CreateSessionError   error
+	CreateSessionOutput  *entity.Session
+	ExpectedOutput       *core.LoginOutput
+	ExpectedError        error
+	GetUserByEmailError  error
+	GetUserByEmailOutput *entity.User
+	Input                *core.LoginInput
+	IsCorrectPassword    bool
 }
 
 var loginTestCases = []loginTestCase{
 	// Successful signup
 	loginTestCase{
-		CreateAccessTokenOutput: &entity.AccessToken{
+		CreateSessionOutput: &entity.Session{
 			ID: uuid2,
 		},
 		ExpectedOutput: &core.LoginOutput{
@@ -68,17 +68,17 @@ func TestLogin(t *testing.T) {
 			Return(testCase.GetUserByEmailOutput, testCase.GetUserByEmailError)
 		mockDatabase.
 			EXPECT().
-			CreateAccessToken(&database.CreateAccessTokenInput{
+			CreateSession(&database.CreateSessionInput{
 				Context: testCase.Input.Context,
 				UserID:  testCase.GetUserByEmailOutput.ID,
 			}).
-			Return(testCase.CreateAccessTokenOutput, testCase.CreateAccessTokenError)
+			Return(testCase.CreateSessionOutput, testCase.CreateSessionError)
 
 		mockJWT := mock.NewMockJWT(ctrl)
 		mockJWT.
 			EXPECT().
 			SignedString(&jwt.SignedStringInput{
-				ID: testCase.CreateAccessTokenOutput.ID,
+				ID: testCase.CreateSessionOutput.ID,
 			}).
 			Return(jwt1, nil)
 

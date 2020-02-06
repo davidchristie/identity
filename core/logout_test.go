@@ -11,25 +11,25 @@ import (
 )
 
 type logoutTestCase struct {
-	DeleteAccessTokenError error
-	ExpectedError          error
-	ExpectedOutput         *core.LogoutOutput
-	Input                  *core.LogoutInput
-	ParseError             error
-	ParseOutput            *entity.AccessToken
+	DeleteSessionError error
+	ExpectedError      error
+	ExpectedOutput     *core.LogoutOutput
+	Input              *core.LogoutInput
+	ParseError         error
+	ParseOutput        *entity.Session
 }
 
 var logoutTestCases = []logoutTestCase{
 	// Successful logout
 	logoutTestCase{
-		DeleteAccessTokenError: nil,
-		ExpectedError:          nil,
-		ExpectedOutput:         &core.LogoutOutput{},
+		DeleteSessionError: nil,
+		ExpectedError:      nil,
+		ExpectedOutput:     &core.LogoutOutput{},
 		Input: &core.LogoutInput{
 			AccessToken: jwt1,
 		},
 		ParseError: nil,
-		ParseOutput: &entity.AccessToken{
+		ParseOutput: &entity.Session{
 			ID: uuid1,
 		},
 	},
@@ -46,8 +46,8 @@ func TestLogout(t *testing.T) {
 		if testCase.ParseOutput != nil {
 			mockDatabase.
 				EXPECT().
-				DeleteAccessToken(testCase.ParseOutput.ID).
-				Return(testCase.DeleteAccessTokenError)
+				DeleteSession(testCase.ParseOutput.ID).
+				Return(testCase.DeleteSessionError)
 		}
 
 		mockJWT := mock.NewMockJWT(ctrl)
