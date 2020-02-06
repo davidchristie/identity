@@ -10,9 +10,11 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run unit tests
         run: go test $(go list ./... | grep -v /test/)
-      - name: Print docker-compose configuration
+      - name: Print docker configuration
         run: docker-compose config
       - name: Start docker services
         run: docker-compose up -d
+      - name: Print docker logs
+        run: docker-compose logs
       - name: Run acceptance tests
         run: go test ./test/acceptance/...
