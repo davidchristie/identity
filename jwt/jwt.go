@@ -3,7 +3,7 @@
 package jwt
 
 import (
-	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 )
 
@@ -14,6 +14,6 @@ type SignedStringInput struct {
 
 // JWT ...
 type JWT interface {
-	Parse(string) (*database.AccessToken, error)
+	Parse(string) (*entity.AccessToken, error)
 	SignedString(*SignedStringInput) (string, error)
 }

@@ -5,6 +5,7 @@ package database
 import (
 	"context"
 
+	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 )
 
@@ -32,12 +33,12 @@ type UpdateUserInput struct{}
 
 // Database ...
 type Database interface {
-	CreateAccessToken(*CreateAccessTokenInput) (*AccessToken, error)
-	CreateUser(*CreateUserInput) (*User, error)
+	CreateAccessToken(*CreateAccessTokenInput) (*entity.AccessToken, error)
+	CreateUser(*CreateUserInput) (*entity.User, error)
 	DeleteAccessToken(id uuid.UUID) error
 	DeleteUser(id uuid.UUID) error
-	GetAccessTokenByID(id uuid.UUID) (*AccessToken, error)
-	GetUserByEmail(*GetUserByEmailInput) (*User, error)
-	GetUserByID(id uuid.UUID) (*User, error)
+	GetAccessTokenByID(id uuid.UUID) (*entity.AccessToken, error)
+	GetUserByEmail(*GetUserByEmailInput) (*entity.User, error)
+	GetUserByID(id uuid.UUID) (*entity.User, error)
 	UpdateUser(*UpdateUserInput) error
 }

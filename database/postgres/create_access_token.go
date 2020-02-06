@@ -4,17 +4,18 @@ import (
 	"database/sql"
 
 	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 )
 
 const createAccessTokenQuery = `INSERT INTO access_tokens (id, user_id) VALUES ($1, $2);`
 
-func (p *postgresDatabase) CreateAccessToken(input *database.CreateAccessTokenInput) (*database.AccessToken, error) {
+func (p *postgresDatabase) CreateAccessToken(input *database.CreateAccessTokenInput) (*entity.AccessToken, error) {
 	if input.Context == nil {
 		return nil, database.ErrNoContext
 	}
 
-	token := &database.AccessToken{
+	token := &entity.AccessToken{
 		ID:     uuid.New(),
 		UserID: input.UserID,
 	}

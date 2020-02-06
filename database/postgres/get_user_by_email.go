@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/davidchristie/identity/database"
+	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 )
 
@@ -13,7 +14,7 @@ var ErrNotFound = errors.New("not found")
 
 // GetUserByEmail attempts to find a user with the specified email.
 // If the account does not exist a ErrNotFound error is returned.
-func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (*database.User, error) {
+func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (*entity.User, error) {
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
@@ -35,7 +36,7 @@ func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (
 		}
 		return nil, err
 	}
-	return &database.User{
+	return &entity.User{
 		Email:        rowEmail,
 		ID:           rowID,
 		PasswordHash: rowPasswordHash,
