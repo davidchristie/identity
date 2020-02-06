@@ -4,8 +4,8 @@ import (
 	"github.com/google/uuid"
 )
 
-// AccessToken ...
-type AccessToken struct {
+// Session ...
+type Session struct {
 	CreatedAt string
 	DeletedAt *string
 	ID        uuid.UUID

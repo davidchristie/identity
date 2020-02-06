@@ -13,7 +13,7 @@ func (c *core) Logout(input *LogoutInput) (*LogoutOutput, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = c.Database.DeleteAccessToken(token.ID)
+	err = c.Database.DeleteSession(token.ID)
 	if err != nil {
 		return nil, err
 	}

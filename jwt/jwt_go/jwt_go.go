@@ -23,7 +23,7 @@ func New(c config.Token) jwt.JWT {
 	return adapter
 }
 
-func (a *adapter) Parse(tokenString string) (*entity.AccessToken, error) {
+func (a *adapter) Parse(tokenString string) (*entity.Session, error) {
 	token, err := jwtGo.Parse(tokenString, func(token *jwtGo.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwtGo.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -36,7 +36,7 @@ func (a *adapter) Parse(tokenString string) (*entity.AccessToken, error) {
 			if err != nil {
 				return nil, err
 			}
-			return &entity.AccessToken{
+			return &entity.Session{
 				ID: id,
 			}, nil
 		}
