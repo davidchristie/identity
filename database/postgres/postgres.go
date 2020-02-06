@@ -30,10 +30,6 @@ func New() database.Database {
 	}
 }
 
-func (p *postgresDatabase) CreateAccessToken(*database.CreateAccessTokenInput) (*database.AccessToken, error) {
-	return nil, ErrNotImplemented
-}
-
 func (p *postgresDatabase) DeleteAccessToken(id uuid.UUID) error {
 	return ErrNotImplemented
 }
@@ -43,10 +39,6 @@ func (p *postgresDatabase) DeleteUser(id uuid.UUID) error {
 }
 
 func (p *postgresDatabase) GetAccessTokenByID(id uuid.UUID) (*database.AccessToken, error) {
-	return nil, ErrNotImplemented
-}
-
-func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (*database.User, error) {
 	return nil, ErrNotImplemented
 }
 

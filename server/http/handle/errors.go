@@ -2,12 +2,14 @@ package handle
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/davidchristie/identity/core"
 )
 
 func writeError(err error, writer http.ResponseWriter) {
+	fmt.Println(err)
 	switch err {
 	case core.ErrEmailAlreadyInUse:
 		writeErrorMessage(http.StatusBadRequest, "This email is already in use.", writer)

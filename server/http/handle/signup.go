@@ -38,6 +38,7 @@ func Signup(c core.Core) func(http.ResponseWriter, *http.Request) {
 
 		response := &struct{}{}
 		blob, _ := json.Marshal(response)
+		addContentTypeJSONHeader(writer)
 		writer.Write(blob)
 	})
 }
