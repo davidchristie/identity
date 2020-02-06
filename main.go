@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/davidchristie/identity/config/env"
 	"github.com/davidchristie/identity/core"
 	"github.com/davidchristie/identity/crypto"
 	"github.com/davidchristie/identity/crypto/bcrypt"
@@ -23,11 +24,12 @@ type options struct {
 }
 
 func main() {
+	config := env.New()
 	err := startService(&options{
 		Crypto:   bcrypt.New(),
-		Database: postgres.New(),
-		JWT:      jwtGo.New(),
-		Server:   http.New(http.Options{}),
+		Database: postgres.New(config.Database()),
+		JWT:      jwtGo.New(config.Token()),
+		Server:   http.New(config.Server()),
 	})
 	if err != nil {
 		log.Fatal("Fatal error in service: ", err)

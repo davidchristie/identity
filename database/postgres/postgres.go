@@ -3,8 +3,10 @@ package postgres
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"log"
 
+	"github.com/davidchristie/identity/config"
 	"github.com/davidchristie/identity/database"
 	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
@@ -21,7 +23,8 @@ type postgresDatabase struct {
 }
 
 // New creates a new Postgres database instance.
-func New() database.Database {
+func New(c config.Database) database.Database {
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:5432/identity?sslmode=disable", c.Username(), c.Password(), c.Host())
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal("Error connecting to database: ", err)

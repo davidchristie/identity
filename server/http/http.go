@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/davidchristie/identity/config"
 	"github.com/davidchristie/identity/core"
 	"github.com/davidchristie/identity/server"
 	"github.com/davidchristie/identity/server/http/handle"
@@ -23,15 +24,11 @@ type httpServer struct {
 }
 
 // New ...
-func New(options Options) server.Server {
+func New(options config.Server) server.Server {
 	fmt.Println("Creating HTTP server...")
-	h := &httpServer{
-		Address: options.Address,
+	return &httpServer{
+		Address: ":" + options.Port(),
 	}
-	if h.Address == "" {
-		h.Address = ":8080"
-	}
-	return h
 }
 
 func (h *httpServer) Serve(core core.Core) error {

@@ -4,20 +4,22 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/davidchristie/identity/config"
 	"github.com/davidchristie/identity/entity"
 	"github.com/davidchristie/identity/jwt"
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 )
 
-// TODO: Get this secret from environment.
-var hmacSampleSecret = []byte("YBgJ7-QtP8RNW7QkNd7o")
-
-type adapter struct{}
+type adapter struct {
+	secret []byte
+}
 
 // New creates a new jwt-go adapter.
-func New() jwt.JWT {
-	var adapter jwt.JWT = &adapter{}
+func New(c config.Token) jwt.JWT {
+	var adapter jwt.JWT = &adapter{
+		secret: []byte(c.Secret()),
+	}
 	return adapter
 }
 
@@ -26,7 +28,7 @@ func (a *adapter) Parse(tokenString string) (*entity.Session, error) {
 		if _, ok := token.Method.(*jwtGo.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		return hmacSampleSecret, nil
+		return a.secret, nil
 	})
 	if claims, ok := token.Claims.(jwtGo.MapClaims); ok && token.Valid {
 		if str, ok := claims["id"].(string); ok {
@@ -43,11 +45,11 @@ func (a *adapter) Parse(tokenString string) (*entity.Session, error) {
 	return nil, err
 }
 
-func (j *adapter) SignedString(input *jwt.SignedStringInput) (string, error) {
+func (a *adapter) SignedString(input *jwt.SignedStringInput) (string, error) {
 	token := jwtGo.NewWithClaims(jwtGo.SigningMethodHS256, jwtGo.MapClaims{
 		"id": input.ID.String(),
 	})
-	tokenString, err := token.SignedString(hmacSampleSecret)
+	tokenString, err := token.SignedString(a.secret)
 	if err != nil {
 		fmt.Println(err)
 		return "", err
