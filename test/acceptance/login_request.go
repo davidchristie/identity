@@ -10,6 +10,7 @@ import (
 // LoginResponseBody is the body of a signup response.
 type LoginResponseBody struct {
 	AccessToken string `json:"access_token"`
+	Message     string `json:"message"`
 }
 
 // LoginRequestBody is the body of a signup request.
