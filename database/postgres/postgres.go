@@ -8,7 +8,6 @@ import (
 
 	"github.com/davidchristie/identity/config"
 	"github.com/davidchristie/identity/database"
-	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 	_ "github.com/lib/pq" // postgres driver
 )
@@ -40,14 +39,6 @@ func (p *postgresDatabase) DeleteSession(id uuid.UUID) error {
 
 func (p *postgresDatabase) DeleteUser(id uuid.UUID) error {
 	return ErrNotImplemented
-}
-
-func (p *postgresDatabase) GetSessionByID(id uuid.UUID) (*entity.Session, error) {
-	return nil, ErrNotImplemented
-}
-
-func (p *postgresDatabase) GetUserByID(id uuid.UUID) (*entity.User, error) {
-	return nil, ErrNotImplemented
 }
 
 func (p *postgresDatabase) UpdateUser(input *database.UpdateUserInput) error {
