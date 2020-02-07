@@ -65,11 +65,41 @@ func TestRequest(t *testing.T) {
 		}
 	})
 
-	t.Run("LoginResponseBody", func(t *testing.T) {
-		body := acceptance.UnmarshalLoginResponseBody(loginResponse)
+	body := acceptance.UnmarshalLoginResponseBody(loginResponse)
+	t.Run("GetUserResponseBody", func(t *testing.T) {
 		t.Logf("login response body: %s", body)
 		if body.AccessToken == "" {
 			t.Errorf("login response body does not contain access token")
+		}
+	})
+
+	// Get user
+	getUserResponse := acceptance.SendGetUserRequest(body.AccessToken)
+
+	t.Run("GetUserResponseStatusCode", func(t *testing.T) {
+		const expected = 200
+		actual := getUserResponse.StatusCode
+		if actual != expected {
+			t.Errorf("get user response status code = %d; expected %d", actual, expected)
+		}
+	})
+
+	t.Run("GetUserResponseContentTypeHeader", func(t *testing.T) {
+		expected := []string{"application/json"}
+		actual := getUserResponse.Header["Content-Type"]
+		if !reflect.DeepEqual(actual, expected) {
+			t.Errorf("get user response Content-Type header = %s; expected %s", actual, expected)
+		}
+	})
+
+	t.Run("GetUserResponseBody", func(t *testing.T) {
+		expected := acceptance.GetUserResponseBody{
+			Email: email,
+		}
+		actual := acceptance.UnmarshalGetUserResponseBody(getUserResponse)
+		t.Logf("get user response body: %s", actual)
+		if !reflect.DeepEqual(actual, expected) {
+			t.Errorf("get user response body = %s; expected %s", actual, expected)
 		}
 	})
 }

@@ -10,10 +10,10 @@ import (
 
 // Core ...
 type Core interface {
+	GetUser(*GetUserInput) (*GetUserOutput, error)
 	Login(*LoginInput) (*LoginOutput, error)
 	Logout(*LogoutInput) (*LogoutOutput, error)
 	Signup(*SignupInput) (*SignupOutput, error)
-	Verify(*VerifyInput) (*VerifyOutput, error)
 }
 
 type core struct {

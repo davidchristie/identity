@@ -36,7 +36,7 @@ func (h *httpServer) Serve(core core.Core) error {
 	routes := http.NewServeMux()
 	routes.HandleFunc("/login", handle.Login(core))
 	routes.HandleFunc("/logout", handle.Logout(core))
-	routes.HandleFunc("/verify", handle.Verify(core))
 	routes.HandleFunc("/signup", handle.Signup(core))
+	routes.HandleFunc("/user", handle.User(core))
 	return http.ListenAndServe(h.Address, routes)
 }
