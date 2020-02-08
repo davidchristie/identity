@@ -25,7 +25,7 @@ type postgresDatabase struct {
 
 // New creates a new Postgres database instance.
 func New(c config.Database) database.Database {
-	connStr := fmt.Sprintf("postgres://%s:%s@%s:5432/identity?sslmode=disable", c.Username(), c.Password(), c.Host())
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", c.Username(), c.Password(), c.Host(), c.Name())
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal("Error connecting to database: ", err)
