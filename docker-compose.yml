@@ -4,7 +4,7 @@ services:
   identity:
     build: .
     depends_on:
-      - postgres-migrate
+      - postgres
     environment:
       - DATABASE_HOST=postgres
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
@@ -22,15 +22,3 @@ services:
       - POSTGRES_USER=${DATABASE_USERNAME}
     image: postgres:12.0
     restart: always
-
-  postgres-migrate:
-    command: -database postgres://$DATABASE_USERNAME:$DATABASE_PASSWORD@postgres:5432/identity?sslmode=disable -path=/migrations/ up
-    depends_on:
-      - postgres
-    environment:
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
-      - DATABASE_USERNAME=${DATABASE_USERNAME}
-    image: migrate/migrate
-    restart: on-failure
-    volumes:
-      - ./migrate/sql:/migrations
