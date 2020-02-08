@@ -15,6 +15,14 @@ func (d *database) Host() string {
 	return host
 }
 
+func (d *database) Name() string {
+	name := os.Getenv("DATABASE_NAME")
+	if name == "" {
+		log.Fatal("$DATABASE_NAME must be set")
+	}
+	return name
+}
+
 func (d *database) Password() string {
 	password := os.Getenv("DATABASE_PASSWORD")
 	if password == "" {
