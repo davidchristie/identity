@@ -10,18 +10,12 @@ import (
 // GetUserByID attempts to find a user with the specified ID.
 // If the account does not exist a ErrNotFound error is returned.
 func (p *postgresDatabase) GetUserByID(id uuid.UUID) (*entity.User, error) {
-	db, err := sql.Open("postgres", connStr)
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
 	const query = `
 		SELECT id, email, password_hash FROM users
 		WHERE id = $1
 	`
 
-	row := db.QueryRow(query, id)
+	row := p.DB.QueryRow(query, id)
 	var rowID uuid.UUID
 	var rowEmail string
 	var rowPasswordHash []byte
