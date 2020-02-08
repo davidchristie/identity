@@ -8,6 +8,7 @@ type Config interface {
 
 type Database interface {
 	Host() string
+	Name() string
 	Password() string
 	Username() string
 }
