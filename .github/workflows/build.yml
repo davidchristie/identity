@@ -23,7 +23,7 @@ jobs:
         run: docker-compose logs
 
   deploy:
-    name: Deploy
+    name: Deploy to Heroku
     needs: Test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
