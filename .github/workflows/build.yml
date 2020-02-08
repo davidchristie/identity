@@ -21,3 +21,20 @@ jobs:
       - if: failure()
         name: Print docker logs
         run: docker-compose logs
+
+  deploy:
+    name: Deploy
+    needs: Test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    env:
+      HEROKU_APP: ${{ secrets.HEROKU_APP }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login to Heroku Container registry
+        run: heroku container:login
+      - name: Build and push
+        run: heroku container:push -a $HEROKU_APP web
+      - name: Release
+        run: heroku container:release -a $HEROKU_APP web
