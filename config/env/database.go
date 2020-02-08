@@ -15,6 +15,14 @@ func (d *database) Host() string {
 	return host
 }
 
+func (d *database) Migrations() string {
+	name := os.Getenv("DATABASE_MIGRATIONS")
+	if name == "" {
+		log.Fatal("$DATABASE_MIGRATIONS must be set")
+	}
+	return name
+}
+
 func (d *database) Name() string {
 	name := os.Getenv("DATABASE_NAME")
 	if name == "" {

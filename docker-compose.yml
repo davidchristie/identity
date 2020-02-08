@@ -7,6 +7,8 @@ services:
       - postgres
     environment:
       - DATABASE_HOST=postgres
+      - DATABASE_MIGRATIONS=/migrations
+      - DATABASE_NAME=identity
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - PORT=8080
