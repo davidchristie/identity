@@ -9,7 +9,7 @@ import (
 
 func TestRequest(t *testing.T) {
 	identity := client.New(&client.Options{
-		Host: "http:localhost",
+		Host: "http://localhost:8080",
 	})
 
 	email := "test.user+" + uuid.New().String() + "@email.com"

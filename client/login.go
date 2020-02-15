@@ -29,7 +29,7 @@ func (c *client) Login(email string, password string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	request, err := http.NewRequest("POST", "http://localhost:8080/login", bytes.NewBuffer(requestBodyBytes))
+	request, err := http.NewRequest("POST", c.host+"/login", bytes.NewBuffer(requestBodyBytes))
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	response, err := client.Do(request)

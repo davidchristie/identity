@@ -26,7 +26,7 @@ func (c *client) Signup(email string, password string) error {
 	if err != nil {
 		return err
 	}
-	request, err := http.NewRequest("POST", "http://localhost:8080/signup", bytes.NewBuffer(requestBodyBytes))
+	request, err := http.NewRequest("POST", c.host+"/signup", bytes.NewBuffer(requestBodyBytes))
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	response, err := client.Do(request)

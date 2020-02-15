@@ -15,7 +15,7 @@ type getUserResponseBody struct {
 
 // GetUser sends a get user request to the identity service.
 func (c *client) GetUser(accessToken string) (User, error) {
-	request, err := http.NewRequest("GET", "http://localhost:8080/user", bytes.NewBuffer([]byte("")))
+	request, err := http.NewRequest("GET", c.host+"/user", bytes.NewBuffer([]byte("")))
 	request.Header.Set("Authorization", "Bearer "+accessToken)
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
