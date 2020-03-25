@@ -36,13 +36,13 @@ func (c *client) Login(email string, password string) (*string, error) {
 	if err != nil {
 		return nil, err
 	}
-	if response.StatusCode != 200 {
-		return nil, errors.New("invalid response status: " + response.Status)
-	}
 	if response.Header.Get("Content-Type") != "application/json" {
 		return nil, errors.New("invalid response content type: " + response.Header.Get("Content-Type"))
 	}
 	body := unmarshalLoginResponseBody(response)
+	if response.StatusCode != 200 {
+		return nil, errors.New(body.Message)
+	}
 	return &body.AccessToken, nil
 }
 

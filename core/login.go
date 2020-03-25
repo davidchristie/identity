@@ -27,7 +27,10 @@ func (c *core) Login(input *LoginInput) (*LoginOutput, error) {
 		Context: input.Context,
 		Email:   input.Email,
 	})
-	if err != nil {
+	if err == database.ErrNotFound {
+		return nil, ErrEmailNotFound
+	} else if err != nil {
+		fmt.Printf("ERROR: %s\n", err)
 		return nil, err
 	}
 
