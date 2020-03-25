@@ -9,7 +9,9 @@ import (
 )
 
 // signupResponseBody is the body of a signup response.
-type signupResponseBody struct{}
+type signupResponseBody struct {
+	Message *string `json:"message"`
+}
 
 // signupRequestBody is the body of a signup request.
 type signupRequestBody struct {
@@ -33,11 +35,12 @@ func (c *client) Signup(email string, password string) error {
 	if err != nil {
 		return err
 	}
-	if response.StatusCode != 200 {
-		return errors.New("invalid response status: " + response.Status)
-	}
 	if response.Header.Get("Content-Type") != "application/json" {
 		return errors.New("invalid response content type: " + response.Header.Get("Content-Type"))
+	}
+	body := unmarshalSignupResponseBody(response)
+	if response.StatusCode != 200 {
+		return errors.New(*body.Message)
 	}
 	return nil
 }

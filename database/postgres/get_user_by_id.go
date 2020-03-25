@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 
+	"github.com/davidchristie/identity/database"
 	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 )
@@ -21,7 +22,7 @@ func (p *postgresDatabase) GetUserByID(id uuid.UUID) (*entity.User, error) {
 	var rowPasswordHash []byte
 	if err := row.Scan(&rowID, &rowEmail, &rowPasswordHash); err != nil {
 		if err == sql.ErrNoRows {
-			return nil, ErrNotFound
+			return nil, database.ErrNotFound
 		}
 		return nil, err
 	}

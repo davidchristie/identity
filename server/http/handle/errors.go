@@ -14,8 +14,14 @@ func writeError(err error, writer http.ResponseWriter) {
 	case core.ErrEmailAlreadyInUse:
 		writeErrorMessage(http.StatusBadRequest, "This email is already in use.", writer)
 
+	case core.ErrEmailNotFound:
+		writeErrorMessage(http.StatusUnauthorized, "This email doesn't belong to an account.", writer)
+
 	case core.ErrShortPassword:
 		writeErrorMessage(http.StatusBadRequest, "This password is not long enough.", writer)
+
+	case core.ErrWrongPassword:
+		writeErrorMessage(http.StatusUnauthorized, "Incorrect password.", writer)
 
 	default:
 		writeErrorMessage(http.StatusInternalServerError, "An unknown error has occured.", writer)

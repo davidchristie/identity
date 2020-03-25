@@ -6,11 +6,10 @@ import (
 	"github.com/google/uuid"
 )
 
-const correct = true
 const email1 = "user@email.com"
-const incorrect = false
 const jwt1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiYWRtaW4iLCJpYXQiOjE0MjI3Nzk2Mzh9.gzSraSYS8EXBxLN_oWnFSRgCzcmJmMjLiuyu5CSpyHI"
-const password1 = "pa$$word123"
+const password1 = "$ome.pa$$word123"
+const password2 = "anoth#r.passw0rd"
 
 var context1 = context.Background()
 var hash1 = []byte("$2a$10$gYXXJulMpoUalXFgmOpKbO6v.nigV2lWf/Z3EwgykLdGzekwGfAbW")

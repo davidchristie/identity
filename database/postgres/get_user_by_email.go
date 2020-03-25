@@ -22,7 +22,7 @@ func (p *postgresDatabase) GetUserByEmail(input *database.GetUserByEmailInput) (
 	var rowPasswordHash []byte
 	if err := row.Scan(&rowID, &rowEmail, &rowPasswordHash); err != nil {
 		if err == sql.ErrNoRows {
-			return nil, ErrNotFound
+			return nil, database.ErrNotFound
 		}
 		return nil, err
 	}

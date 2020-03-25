@@ -3,6 +3,7 @@ package postgres
 import (
 	"database/sql"
 
+	"github.com/davidchristie/identity/database"
 	"github.com/davidchristie/identity/entity"
 	"github.com/google/uuid"
 )
@@ -20,7 +21,7 @@ func (p *postgresDatabase) GetSessionByID(id uuid.UUID) (*entity.Session, error)
 	var rowUserID uuid.UUID
 	if err := row.Scan(&rowID, &rowUserID); err != nil {
 		if err == sql.ErrNoRows {
-			return nil, ErrNotFound
+			return nil, database.ErrNotFound
 		}
 		return nil, err
 	}

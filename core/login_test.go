@@ -20,15 +20,16 @@ type loginTestCase struct {
 	GetUserByEmailError  error
 	GetUserByEmailOutput *entity.User
 	Input                *core.LoginInput
-	IsCorrectPassword    bool
+	IsCorrectPassword    *bool
 }
 
 var loginTestCases = []loginTestCase{
-	// Successful signup
+	// Successful login
 	loginTestCase{
 		CreateSessionOutput: &entity.Session{
 			ID: uuid2,
 		},
+		ExpectedError: nil,
 		ExpectedOutput: &core.LoginOutput{
 			AccessToken: jwt1,
 		},
@@ -42,7 +43,37 @@ var loginTestCases = []loginTestCase{
 			Email:    email1,
 			Password: password1,
 		},
-		IsCorrectPassword: true,
+		IsCorrectPassword: &[]bool{true}[0],
+	},
+
+	// Email not found
+	loginTestCase{
+		ExpectedOutput:       nil,
+		ExpectedError:        core.ErrEmailNotFound,
+		GetUserByEmailError:  database.ErrNotFound,
+		GetUserByEmailOutput: nil,
+		Input: &core.LoginInput{
+			Context:  context1,
+			Email:    email1,
+			Password: password1,
+		},
+	},
+
+	// Wrong password
+	loginTestCase{
+		ExpectedOutput:      nil,
+		ExpectedError:       core.ErrWrongPassword,
+		GetUserByEmailError: nil,
+		GetUserByEmailOutput: &entity.User{
+			ID:           uuid1,
+			PasswordHash: hash1,
+		},
+		Input: &core.LoginInput{
+			Context:  context1,
+			Email:    email1,
+			Password: password2,
+		},
+		IsCorrectPassword: &[]bool{false}[0],
 	},
 }
 
@@ -53,34 +84,42 @@ func TestLogin(t *testing.T) {
 
 	for _, testCase := range loginTestCases {
 		mockCrypto := mock.NewMockCrypto(ctrl)
-		mockCrypto.
-			EXPECT().
-			IsCorrectPassword(testCase.Input.Password, testCase.GetUserByEmailOutput.PasswordHash).
-			Return(testCase.IsCorrectPassword)
+		if testCase.IsCorrectPassword != nil {
+			mockCrypto.
+				EXPECT().
+				IsCorrectPassword(testCase.Input.Password, testCase.GetUserByEmailOutput.PasswordHash).
+				Return(*testCase.IsCorrectPassword)
+		}
 
 		mockDatabase := mock.NewMockDatabase(ctrl)
-		mockDatabase.
-			EXPECT().
-			GetUserByEmail(&database.GetUserByEmailInput{
-				Context: testCase.Input.Context,
-				Email:   testCase.Input.Email,
-			}).
-			Return(testCase.GetUserByEmailOutput, testCase.GetUserByEmailError)
-		mockDatabase.
-			EXPECT().
-			CreateSession(&database.CreateSessionInput{
-				Context: testCase.Input.Context,
-				UserID:  testCase.GetUserByEmailOutput.ID,
-			}).
-			Return(testCase.CreateSessionOutput, testCase.CreateSessionError)
+		if testCase.GetUserByEmailOutput != nil || testCase.GetUserByEmailError != nil {
+			mockDatabase.
+				EXPECT().
+				GetUserByEmail(&database.GetUserByEmailInput{
+					Context: testCase.Input.Context,
+					Email:   testCase.Input.Email,
+				}).
+				Return(testCase.GetUserByEmailOutput, testCase.GetUserByEmailError)
+		}
+		if testCase.CreateSessionOutput != nil || testCase.CreateSessionError != nil {
+			mockDatabase.
+				EXPECT().
+				CreateSession(&database.CreateSessionInput{
+					Context: testCase.Input.Context,
+					UserID:  testCase.GetUserByEmailOutput.ID,
+				}).
+				Return(testCase.CreateSessionOutput, testCase.CreateSessionError)
+		}
 
 		mockToken := mock.NewMockToken(ctrl)
-		mockToken.
-			EXPECT().
-			NewAccessToken(&token.Content{
-				ID: testCase.CreateSessionOutput.ID,
-			}).
-			Return(jwt1, nil)
+		if testCase.CreateSessionOutput != nil {
+			mockToken.
+				EXPECT().
+				NewAccessToken(&token.Content{
+					ID: testCase.CreateSessionOutput.ID,
+				}).
+				Return(jwt1, nil)
+		}
 
 		core := core.New(core.Options{
 			Crypto:   mockCrypto,
